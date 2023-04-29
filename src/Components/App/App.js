@@ -1,22 +1,21 @@
 import { ThemeProvider } from 'styled-components';
+import defaultTheme from '../../assets/styles/theme/default';
+
 import GlobalStyles from '../../assets/styles/global';
 
-import defaultTheme from '../../assets/styles/themes/default';
-
 import Header from '../Header';
-import ContactList from '../ContactsList';
+import ContactsList from '../ContactsList';
 
 import { Container } from './styles';
 
 export default function App() {
   return (
-
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyles />
 
       <Container>
         <Header />
-        <ContactList />
+        <ContactsList />
       </Container>
     </ThemeProvider>
   );

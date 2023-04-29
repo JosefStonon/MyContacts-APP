@@ -1,11 +1,11 @@
 export default {
   colors: {
-    backGround: '#F6F5FC',
+    background: '#F6F5FC',
     primary: {
       lighter: '#E0E3FF',
-      light: '#6674F4',
+      light: '##6674F4',
       main: '#5061FC',
-      dark: '#3346f0',
+      dark: '#3346F0',
     },
 
   },
