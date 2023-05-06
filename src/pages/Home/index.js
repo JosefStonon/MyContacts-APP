@@ -56,7 +56,11 @@ export default function Home() {
     </Container>
   );
 }
-fetch('http://localhost:3000');
-.then((response) => {
 
-})
+fetch('http://localhost:3001/contact')
+  .then((res) => {
+    console.log('response', res);
+  })
+  .catch((error) => {
+    console.log('error', error);
+  });
