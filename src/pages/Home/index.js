@@ -57,7 +57,9 @@ export default function Home() {
   );
 }
 
-fetch('http://localhost:3001/contact')
+fetch('http://localhost:3001/contact', {
+  method: 'DELETE',
+})
   .then((res) => {
     console.log('response', res);
   })
