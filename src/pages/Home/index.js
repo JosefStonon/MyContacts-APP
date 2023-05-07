@@ -59,6 +59,9 @@ export default function Home() {
 
 fetch('http://localhost:3001/contact', {
   method: 'DELETE',
+  headers: new Headers({
+    'X-App-ID': '123',
+  }),
 })
   .then((res) => {
     console.log('response', res);
