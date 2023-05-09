@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -9,6 +10,19 @@ import edit from '../../assets/images/icons/edit.svg.svg';
 import trash from '../../assets/images/icons/trash.svg.svg';
 
 export default function Home() {
+  const [contacts, setContacts] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/contact')
+      .then(async (res) => {
+        const json = await res.json();
+        setContacts(json);
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
+  }, []);
+  console.log(contacts);
   return (
     <Container>
 
@@ -56,7 +70,3 @@ export default function Home() {
     </Container>
   );
 }
-fetch('http://localhost:3000');
-.then((response) => {
-
-})
