@@ -52,13 +52,11 @@ margin-top: 32px;
     }
 `;
 
-export const ListContainer = styled.div`
+export const ListHeader = styled.div`
         margin-top: 24px;
+        margin-bottom: 8px;
 
-        header {
-            margin-bottom: 8px;
-
-            button {
+        button {
             background: transparent;
             border: none;
             display: flex;
@@ -69,7 +67,14 @@ export const ListContainer = styled.div`
                 font-weight: bold;
                 color:${({ theme }) => theme.colors.primary.main}
             }
-        }
+
+
+            img {
+
+                transform: ${({ orderBy }) => (orderBy === 'asc' ? 'rotate(180deg)' : 'rotate(0deg)')};
+                transition: transform 0.2s ease-in;
+            }
+
         }
 
 `;

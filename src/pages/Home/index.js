@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
-  Container, InputSearchContainer, Header, ListContainer, Card,
+  Container, InputSearchContainer, Header, ListHeader, Card,
 } from './styles';
 
 import arrow from '../../assets/images/icons/arrow.svg.svg';
@@ -11,9 +11,10 @@ import trash from '../../assets/images/icons/trash.svg.svg';
 
 export default function Home() {
   const [contacts, setContacts] = useState([]);
+  const [orderBy, setOrderBy] = useState('asc');
 
   useEffect(() => {
-    fetch('http://localhost:3001/contact')
+    fetch(`http://localhost:3001/contact?orderBy=${orderBy}`)
       .then(async (res) => {
         const json = await res.json();
         setContacts(json);
@@ -21,8 +22,16 @@ export default function Home() {
       .catch((error) => {
         console.log('error', error);
       });
-  }, []);
-  console.log(contacts);
+  }, [orderBy]);
+
+  function handleToggleOrderBy() {
+    setOrderBy(
+      (prevState) => (prevState === 'asc' ? 'desc' : 'asc'),
+    );
+  }
+
+  console.log(orderBy);
+
   return (
     <Container>
 
@@ -31,33 +40,41 @@ export default function Home() {
       </InputSearchContainer>
 
       <Header>
-        <strong>3 contatos</strong>
+        <strong>
+          {contacts.length}
+          {contacts.length === 1 ? ' contato' : ' contatos'}
+
+        </strong>
         <Link to="/new">Novo contato</Link>
 
       </Header>
 
-      <ListContainer>
+      <ListHeader orderBy={orderBy}>
 
-        <header>
-          <button type="button">
-            <span>Nome</span>
-            <img src={arrow} alt="Arow" />
-          </button>
-        </header>
+        <button type="button" onClick={handleToggleOrderBy}>
+          <span>Nome</span>
+          <img src={arrow} alt="Arow" />
+        </button>
+      </ListHeader>
 
-        <Card>
+      {contacts.map((contact) => (
+        <Card
+          key={contact.id}
+        >
           <div className="info">
 
             <div className="contact-name">
-              <strong>Josef Sartori</strong>
-              <small>Instalgram</small>
+              <strong>{contact.name}</strong>
+              {contact.category_name && (
+                <small>{contact.category_name}</small>
+              )}
             </div>
-            <span>josef@gmail.com</span>
-            <span>(14) 99826-073</span>
+            <span>{contact.email}</span>
+            <span>{contact.phone}</span>
           </div>
 
           <div className="actions">
-            <Link to="/edit/123">
+            <Link to={`/edit/${contact.id}`}>
               <img src={edit} alt="Edit" />
             </Link>
             <button type="button">
@@ -65,24 +82,8 @@ export default function Home() {
             </button>
           </div>
         </Card>
+      ))}
 
-      </ListContainer>
     </Container>
   );
 }
-<<<<<<< HEAD
-=======
-
-fetch('http://localhost:3001/contact', {
-  method: 'DELETE',
-  headers: new Headers({
-    'X-App-ID': '123',
-  }),
-})
-  .then((res) => {
-    console.log('response', res);
-  })
-  .catch((error) => {
-    console.log('error', error);
-  });
->>>>>>> f044a83f6ef9b81a880fad63a2e77260d29c107e
