@@ -70,3 +70,19 @@ export default function Home() {
     </Container>
   );
 }
+<<<<<<< HEAD
+=======
+
+fetch('http://localhost:3001/contact', {
+  method: 'DELETE',
+  headers: new Headers({
+    'X-App-ID': '123',
+  }),
+})
+  .then((res) => {
+    console.log('response', res);
+  })
+  .catch((error) => {
+    console.log('error', error);
+  });
+>>>>>>> f044a83f6ef9b81a880fad63a2e77260d29c107e
