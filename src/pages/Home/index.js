@@ -23,13 +23,14 @@ export default function Home() {
         console.log('error', error);
       });
   }, [orderBy]);
-  console.log(contacts);
 
   function handleToggleOrderBy() {
     setOrderBy(
       (prevState) => (prevState === 'asc' ? 'desc' : 'asc'),
     );
   }
+
+  console.log(orderBy);
 
   return (
     <Container>
@@ -39,7 +40,11 @@ export default function Home() {
       </InputSearchContainer>
 
       <Header>
-        <strong>3 contatos</strong>
+        <strong>
+          {contacts.length}
+          {contacts.length === 1 ? ' contato' : ' contatos'}
+
+        </strong>
         <Link to="/new">Novo contato</Link>
 
       </Header>
@@ -50,24 +55,29 @@ export default function Home() {
           <span>Nome</span>
           <img src={arrow} alt="Arow" />
         </button>
-
       </ListHeader>
 
       {contacts.map((contact) => (
-        <Card key={contact.id}>
+        <Card
+          key={contact.id}
+        >
           <div className="info">
 
             <div className="contact-name">
               <strong>{contact.name}</strong>
               {contact.category_name && (
-              <small>{contact.category_name}</small>)}
+
+                <small>{contact.category_name}</small>
+              )}
             </div>
             <span>{contact.email}</span>
             <span>{contact.phone}</span>
           </div>
 
           <div className="actions">
+
             <Link to={orderBy}>
+
               <img src={edit} alt="Edit" />
             </Link>
             <button type="button">
