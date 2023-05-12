@@ -26,6 +26,5 @@
     "import/prefer-default-export": "off",
     "react/jsx-no-bind": "off",
     "no-console": "off"
-
     }
 }
