@@ -10,7 +10,7 @@ import edit from '../../assets/images/icons/edit.svg.svg';
 import trash from '../../assets/images/icons/trash.svg.svg';
 
 import Loader from '../../Components/Loader';
-import delay from '../../Utils/delay';
+import ContactsService from '../../services/ContactsService';
 
 export default function Home() {
   const [contacts, setContacts] = useState([]);
@@ -27,11 +27,9 @@ export default function Home() {
       try {
         setIsLoading(true);
 
-        const response = await fetch(`http://localhost:3001/contact?orderBy=${orderBy}`);
+        const contactList = await ContactsService.listContacts(orderBy);
 
-        await delay(500);
-        const json = await response.json();
-        setContacts(json);
+        setContacts(contactList);
       } catch (error) {
         console.log('erro', error);
       } finally {
