@@ -1,47 +1,50 @@
-import { useEffect, useState, useMemo } from 'react';
+import {
+  useEffect, useState, useMemo, useCallback,
+} from 'react';
 import { Link } from 'react-router-dom';
 
 import {
-  Container, InputSearchContainer, Header, ListHeader, Card,
+  Container, InputSearchContainer, Header, ListHeader, Card, ErrorContainer,
 } from './styles';
 
 import arrow from '../../assets/images/icons/arrow.svg.svg';
 import edit from '../../assets/images/icons/edit.svg.svg';
 import trash from '../../assets/images/icons/trash.svg.svg';
+import sad from '../../assets/images/icons/sad.svg';
 
 import Loader from '../../Components/Loader';
 import ContactsService from '../../services/ContactsService';
+import Button from '../../Components/Button';
 
 export default function Home() {
   const [contacts, setContacts] = useState([]);
   const [orderBy, setOrderBy] = useState('asc');
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   const filteredContacts = useMemo(() => contacts.filter((contact) => (
     contact.name.toLowerCase().includes(searchTerm.toLowerCase())
   )), [contacts, searchTerm]);
 
-  useEffect(() => {
-    async function loadContacts() {
-      try {
-        setIsLoading(true);
+  const loadContacts = useCallback(async () => {
+    try {
+      setIsLoading(true);
 
-        const contactList = await ContactsService.listContacts(orderBy);
+      const contactList = await ContactsService.listContacts(orderBy);
 
-        setContacts(contactList);
-      } catch (error) {
-        console.log('Name:', error.name);
-        console.log('message:', error.message);
-        console.log('response:', error.response);
-        console.log('body:', error.body);
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
+      setHasError(false);
+
+      setContacts(contactList);
+    } catch {
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
     }
-    loadContacts();
   }, [orderBy]);
+  useEffect(() => {
+    loadContacts();
+  }, [loadContacts]);
 
   function handleToggleOrderBy() {
     setOrderBy(
@@ -53,6 +56,10 @@ export default function Home() {
     setSearchTerm(event.target.value);
   }
 
+  function handleTryAgain() {
+    loadContacts();
+  }
+
   return (
     <Container>
       <Loader isLoading={isLoading} />
@@ -61,54 +68,74 @@ export default function Home() {
         <input value={searchTerm} onChange={handleChangeSearchTerm} type="text" placeholder="Pesquisar por nome..." />
       </InputSearchContainer>
 
-      <Header>
+      <Header hasError={hasError}>
+        {!hasError && (
         <strong>
           {filteredContacts.length}
           {filteredContacts.length === 1 ? ' contato' : ' contatos'}
 
         </strong>
+        )}
         <Link to="/new">Novo contato</Link>
 
       </Header>
 
-      {filteredContacts.length > 0 && (
-        <ListHeader orderBy={orderBy}>
-          <button type="button" onClick={handleToggleOrderBy}>
-            <span>Nome</span>
-            <img src={arrow} alt="Arow" />
-          </button>
-        </ListHeader>
+      {hasError && (
+        <ErrorContainer>
+          <img src={sad} alt="Sad" />
+          <div className="details">
+            <strong>Ocorreu um erro ao obter os seus contatos!</strong>
+            <Button type="button" onClick={handleTryAgain}>
+              Tentar novamente
+            </Button>
+          </div>
+        </ErrorContainer>
       )}
 
-      {filteredContacts.map((contact) => (
-        <Card
-          key={contact.id}
-        >
-          <div className="info">
+      {!hasError && (
 
-            <div className="contact-name">
-              <strong>{contact.name}</strong>
-              {contact.category_name && (
-
-                <small>{contact.category_name}</small>
-              )}
-            </div>
-            <span>{contact.email}</span>
-            <span>{contact.phone}</span>
-          </div>
-
-          <div className="actions">
-
-            <Link to={orderBy}>
-
-              <img src={edit} alt="Edit" />
-            </Link>
-            <button type="button">
-              <img src={trash} alt="Lixo" />
+        <>
+          {filteredContacts.length > 0 && (
+          <ListHeader orderBy={orderBy}>
+            <button type="button" onClick={handleToggleOrderBy}>
+              <span>Nome</span>
+              <img src={arrow} alt="Arow" />
             </button>
-          </div>
-        </Card>
-      ))}
+          </ListHeader>
+          )}
+
+          {filteredContacts.map((contact) => (
+            <Card
+              key={contact.id}
+            >
+              <div className="info">
+
+                <div className="contact-name">
+                  <strong>{contact.name}</strong>
+                  {contact.category_name && (
+
+                    <small>{contact.category_name}</small>
+                  )}
+                </div>
+                <span>{contact.email}</span>
+                <span>{contact.phone}</span>
+              </div>
+
+              <div className="actions">
+
+                <Link to={orderBy}>
+
+                  <img src={edit} alt="Edit" />
+                </Link>
+                <button type="button">
+                  <img src={trash} alt="Lixo" />
+                </button>
+              </div>
+            </Card>
+          ))}
+        </>
+
+      )}
 
     </Container>
   );
