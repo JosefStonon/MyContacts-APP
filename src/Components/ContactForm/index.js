@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
@@ -18,8 +19,9 @@ export default function ContactForm({ buttonLabel }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [category, setCategory] = useState('');
+  const [categoryId, setCategoryId] = useState('');
   const [categories, setCategories] = useState([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
 
   const {
     errors,
@@ -32,9 +34,13 @@ export default function ContactForm({ buttonLabel }) {
 
   useEffect(() => {
     async function loadCategories() {
-      const categoriesList = await CategoriesService.listCategories();
+      try {
+        const categoriesList = await CategoriesService.listCategories();
 
-      setCategories(categoriesList);
+        setCategories(categoriesList);
+      } catch { } finally {
+        setIsLoadingCategories(false);
+      }
     }
     loadCategories();
   }, []);
@@ -67,7 +73,7 @@ export default function ContactForm({ buttonLabel }) {
     event.preventDefault();
 
     console.log({
-      name, email, phone, category,
+      name, email, phone, categoryId,
     });
   }
 
@@ -102,14 +108,20 @@ export default function ContactForm({ buttonLabel }) {
         />
       </FormGroup>
 
-      <FormGroup>
+      <FormGroup isLoading={isLoadingCategories}>
         <Select
-          value={category}
-          onChange={(event) => setCategory(event.target.value)}
+          value={categoryId}
+          onChange={(event) => setCategoryId(event.target.value)}
+          disabled={isLoadingCategories}
         >
-          <option value="">Categoria</option>
-          <option value="Discord">Discord</option>
-          <option value="Instagram">Instagram</option>
+          <option value=""> Sem categoria</option>
+
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+
         </Select>
       </FormGroup>
 
