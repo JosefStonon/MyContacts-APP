@@ -4,16 +4,20 @@ import ContactForm from '../../Components/ContactForm';
 import ContactsService from '../../services/ContactsService';
 
 export default function NewContact() {
-  async function HandleSubmit(formdata) {
-    const contact = {
-      name: formdata.name,
-      email: formdata.email,
-      phone: formdata.phone,
-      category_id: formdata.category_id,
-    };
-    const response = await ContactsService.createContact(contact);
+  async function HandleSubmit(formData) {
+    try {
+      const contact = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        category_id: formData.categoryId,
+      };
+      const response = await ContactsService.createContact(contact);
 
-    console.log(response);
+      console.log(response);
+    } catch {
+      alert('Ocorreu um erro ao cadastrar o contato!');
+    }
   }
   return (
     <>

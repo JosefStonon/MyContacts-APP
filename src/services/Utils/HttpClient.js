@@ -39,18 +39,18 @@ class HttpClient {
       headers,
     });
 
-    let responsebody = null;
+    let responseBody = null;
     const contentType = response.headers.get('Content-Type');
 
     if (contentType.includes('application/json')) {
-      responsebody = await response.json();
+      responseBody = await response.json();
     }
 
     if (response.ok) {
-      return responsebody;
+      return responseBody;
     }
 
-    throw new ApiError(response, responsebody);
+    throw new ApiError(response, responseBody);
   }
 }
 
