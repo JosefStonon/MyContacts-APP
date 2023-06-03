@@ -168,7 +168,7 @@ export default function Home() {
 
               <div className="actions">
 
-                <Link to={orderBy}>
+                <Link to={`/edit/${contact.id}`}>
 
                   <img src={edit} alt="Edit" />
                 </Link>

@@ -17,12 +17,12 @@ export default function App() {
     <BrowserRouter>
       <ThemeProvider theme={defaultTheme}>
         <GlobalStyles />
-        <ToastContainer />
 
         <Container>
           <Header />
           <Routes />
         </Container>
+        <ToastContainer />
       </ThemeProvider>
     </BrowserRouter>
 
