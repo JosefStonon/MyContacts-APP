@@ -1,6 +1,8 @@
 /* eslint-disable no-shadow */
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import {
+  useState, useEffect, forwardRef, useImperativeHandle,
+} from 'react';
 
 import isEmailValid from '../../Utils/isEmailValid';
 
@@ -15,7 +17,7 @@ import Button from '../Button';
 import FormGroup from '../FormGroup';
 import formatPhone from '../../Utils/formatPhone';
 
-export default function ContactForm({ buttonLabel, onSubmit }) {
+const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -32,6 +34,17 @@ export default function ContactForm({ buttonLabel, onSubmit }) {
   } = useErrors();
 
   const isFormValid = (name && errors.length === 0);
+
+  useImperativeHandle(ref, () => ({
+
+    setFieldValues: (contact) => {
+      setName(contact.name);
+      setEmail(contact.email);
+      setPhone(contact.phone);
+      setCategoryId(contact.category_id);
+    },
+
+  }), []);
 
   useEffect(() => {
     async function loadCategories() {
@@ -107,7 +120,6 @@ export default function ContactForm({ buttonLabel, onSubmit }) {
           value={email}
           onChange={handleEmailChange}
           disabled={isSubmitting}
-
         />
       </FormGroup>
 
@@ -118,7 +130,6 @@ export default function ContactForm({ buttonLabel, onSubmit }) {
           onChange={handlePhoneChange}
           maxLength={15}
           disabled={isSubmitting}
-
         />
       </FormGroup>
 
@@ -150,7 +161,9 @@ export default function ContactForm({ buttonLabel, onSubmit }) {
       </ButtonContainer>
     </Form>
   );
-}
+});
+
+export default ContactForm;
 
 ContactForm.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
