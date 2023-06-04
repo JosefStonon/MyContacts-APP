@@ -2,12 +2,13 @@ import { useParams, useHistory } from 'react-router-dom/cjs/react-router-dom.min
 import { useEffect, useState, useRef } from 'react';
 import PageHeader from '../../Components/PageHeader';
 import ContactForm from '../../Components/ContactForm';
-import ContactService from '../../services/ContactsService';
+import ContactsService from '../../services/ContactsService';
 import Loader from '../../Components/Loader';
 import toast from '../../Utils/toast';
 
 export default function EditContact() {
   const [isLoading, setIsLoading] = useState(true);
+  const [contactName, setContactName] = useState('');
   const contactRefForm = useRef(null);
   const { id } = useParams();
   const history = useHistory();
@@ -15,11 +16,12 @@ export default function EditContact() {
   useEffect(() => {
     async function loadContact() {
       try {
-        const contact = await ContactService.getContactById(
+        const contact = await ContactsService.getContactById(
           id,
         );
         contactRefForm.current.setFieldValues(contact);
         setIsLoading(false);
+        setContactName(contact.name);
       } catch {
         history.push('/');
         toast({
@@ -30,15 +32,36 @@ export default function EditContact() {
     }
     loadContact();
   }, [id, history]);
-  function handleSubmit() {
-    //
+  async function handleSubmit(formData) {
+    try {
+      const contact = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        category_id: formData.categoryId,
+      };
+      const contactData = await ContactsService.updateContact(id, contact);
+
+      setContactName(contactData.name);
+
+      toast({
+        type: 'success',
+        text: 'Contato editado com sucesso!',
+        duration: 3000,
+      });
+    } catch {
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro ao editar o contato!',
+      });
+    }
   }
   return (
     <>
       <Loader isLoading={isLoading} />
 
       <PageHeader
-        title="Josef Sartori"
+        title={isLoading ? 'Carregando' : `Editar ${contactName}`}
       />
 
       <ContactForm

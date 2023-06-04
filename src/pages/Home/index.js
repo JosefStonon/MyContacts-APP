@@ -26,6 +26,7 @@ import magnifierQuestion from '../../assets/images/magnifier-question.svg';
 import Loader from '../../Components/Loader';
 import ContactsService from '../../services/ContactsService';
 import Button from '../../Components/Button';
+import Modal from '../../Components/Modal';
 
 export default function Home() {
   const [contacts, setContacts] = useState([]);
@@ -74,6 +75,18 @@ export default function Home() {
   return (
     <Container>
       <Loader isLoading={isLoading} />
+
+      <Modal
+        danger
+        title="Tem certeza que deseja remover o contato"
+        confirmLabel="Deletar"
+        onCancel={() => alert('cancelou')}
+        onConfirm={() => alert('Confirmou')}
+      >
+        <h2>grtherhrfh</h2>
+        <strong>jgopwigjoiewrjg</strong>
+        <p>uhdfiuhfgfwjoeigf</p>
+      </Modal>
 
       {contacts.length > 0 && (
         <InputSearchContainer>

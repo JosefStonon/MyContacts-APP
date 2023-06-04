@@ -7,21 +7,26 @@ class HttpClient {
     this.baseURL = baseURL;
   }
 
-  get(path) {
-    return this.makeRequest(path, { method: 'GET' });
-  }
-
-  post(path, body) {
+  get(path, options) {
     return this.makeRequest(path, {
-      method: 'POST',
-      body,
+      method: 'GET',
+      headers: options?.headers,
     });
   }
 
-  put(path, body) {
+  post(path, options) {
+    return this.makeRequest(path, {
+      method: 'POST',
+      body: options?.body,
+      headers: options?.headers,
+    });
+  }
+
+  put(path, options) {
     return this.makeRequest(path, {
       method: 'PUT',
-      body,
+      body: options?.body,
+      headers: options?.headers,
     });
   }
 
