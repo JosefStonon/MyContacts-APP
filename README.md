@@ -1,5 +1,5 @@
 # MyContacts_APP
-O repositório MyContacts é um projeto destinado ao gerenciamento de cons centralizado. Com uma interface amigável e intuitiva, este projeto oferece uma solução prática para a organização de informtatos ao permitir que os usuários adicionem, visualizem, atualizem e removam contatos em um banco de dadoações de contato importantes.
+O repositório MyContacts é um projeto destinado ao gerenciamento de contatos centralizado. Com uma interface amigável e intuitiva, este projeto oferece uma solução prática para a organização de informtatos ao permitir que os usuários adicionem, visualizem, atualizem e removam contatos em um banco de dadoações de contato importantes.
 
 ## Funcionalidades
 
@@ -17,7 +17,7 @@ O MyContacts oferece as seguintes funcionalidades principais:
 
 ## Tecnologias Utilizadas
 
-- **Frontend**: O frontend é desenvolvido utilizando React.js 17 e foi inicializado com o `create-react-app` para configurar a estrutura básica do projeto.
+- **Frontend**: O frontend é desenvolvido utilizando React.js 17, atualmente sendo atualizado para React.js 18 e foi inicializado com o `create-react-app` para configurar a estrutura básica do projeto.
 
 - **Backend**: O backend é construído em cima do Express.js, que fornece uma estrutura para criar a API RESTful necessária para as operações de CRUD.
 
