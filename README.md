@@ -17,7 +17,10 @@ O MyContacts oferece as seguintes funcionalidades principais:
 
 ## Tecnologias Utilizadas
 
+- **Frontend**: O frontend é desenvolvido utilizando React.js 17, atualmente sendo atualizado para React.js 18 e foi inicializado com o `create-react-app` para configurar a estrutura básica do projeto.
+=======
 - **Frontend**: O frontend é desenvolvido utilizando React.js 17 e atualmente esta sendo atualizado para React.js 18 e foi inicializado com o `create-react-app` para configurar a estrutura básica do projeto.
+
 
 - **Backend**: O backend é construído em cima do Express.js, que fornece uma estrutura para criar a API RESTful necessária para as operações de CRUD.
 

@@ -15,6 +15,7 @@ import Modal from '../../Components/Modal';
 
 export default function Home() {
   const {
+    isPending,
     isLoading,
     isLoadingDelete,
     isDeleteModalVisible,
@@ -64,6 +65,7 @@ export default function Home() {
       {hasContacts && (
 
         <>
+          {isPending && <h1>carregando...</h1>}
 
           <ContactsList
             filteredContacts={filteredContacts}
