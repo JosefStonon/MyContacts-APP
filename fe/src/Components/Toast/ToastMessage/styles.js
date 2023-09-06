@@ -51,7 +51,7 @@ animation: ${messageIn} 0.3s;
     background: purple;
 }
 
-${({ isLeaving }) => isLeaving && css`animation: ${messageOut} 0.2s;`}
+${({ isLeaving }) => isLeaving && css`animation: ${messageOut} 0.2s forwards;`}
 
 ${({ type }) => containerVariants[type] || containerVariants.default}
 
