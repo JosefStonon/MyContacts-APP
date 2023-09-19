@@ -5,8 +5,7 @@ import defaultTheme from '../../assets/styles/theme/default';
 import GlobalStyles from '../../assets/styles/global';
 
 import Header from '../Header';
-import Routes from '../../Routes';
-
+import Router from '../../Router';
 import { Container } from './styles';
 
 import ToastContainer from '../Toast/ToastContainer';
@@ -21,7 +20,7 @@ export default function App() {
 
         <Container>
           <Header />
-          <Routes />
+          <Router />
         </Container>
       </ThemeProvider>
     </BrowserRouter>
